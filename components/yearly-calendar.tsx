@@ -81,7 +81,7 @@ export function YearlyCalendar({ year }: YearlyCalendarProps) {
 			days.push(
 				<div
 					key={`prev-${day}`}
-					className='w-6 h-6 flex items-center justify-center text-xs text-gray-300 dark:text-gray-600'
+					className='w-7 h-7 flex items-center justify-center text-xs text-gray-300 dark:text-gray-600'
 				>
 					{day}
 				</div>
@@ -97,7 +97,7 @@ export function YearlyCalendar({ year }: YearlyCalendarProps) {
 			const dayElement = (
 				<div
 					key={day}
-					className={`w-6 h-6 flex items-center justify-center text-xs transition-all duration-200 cursor-pointer ${
+					className={`w-7 h-7 flex items-center justify-center text-xs transition-all duration-200 cursor-pointer ${
 						isToday
 							? 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-full shadow-lg shadow-purple-500/30 z-10'
 							: holiday
@@ -113,7 +113,7 @@ export function YearlyCalendar({ year }: YearlyCalendarProps) {
 
 			if (holiday) {
 				days.push(
-					<HolidayTooltip key={day} holiday={holiday} className='w-6 h-6'>
+					<HolidayTooltip key={day} holiday={holiday} className='w-7 h-7'>
 						{dayElement}
 					</HolidayTooltip>
 				)
@@ -130,7 +130,7 @@ export function YearlyCalendar({ year }: YearlyCalendarProps) {
 			days.push(
 				<div
 					key={`next-${day}`}
-					className='w-6 h-6 flex items-center justify-center text-xs text-gray-300 dark:text-gray-600'
+					className='w-7 h-7 flex items-center justify-center text-xs text-gray-300 dark:text-gray-600'
 				>
 					{day}
 				</div>
@@ -140,10 +140,10 @@ export function YearlyCalendar({ year }: YearlyCalendarProps) {
 		return (
 			<Card
 				key={monthIndex}
-				className='p-4 cursor-pointer hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300 bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm border border-purple-300/70 dark:border-purple-700/50 hover:border-purple-400 dark:hover:border-purple-600 hover:scale-105 group relative overflow-visible'
+				className='p-3 cursor-pointer hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300 bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm border border-purple-300/70 dark:border-purple-700/50 hover:border-purple-400 dark:hover:border-purple-600 hover:scale-105 group relative overflow-visible'
 				onClick={() => handleMonthClick(monthIndex)}
 			>
-				<div className='text-center mb-3'>
+				<div className='text-center mb-2'>
 					<h3 className='font-medium text-gray-900 dark:text-gray-100 text-sm group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-indigo-600 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300'>
 						{months[monthIndex]}
 					</h3>
@@ -153,7 +153,7 @@ export function YearlyCalendar({ year }: YearlyCalendarProps) {
 						</div>
 					)}
 				</div>
-				<div className='grid grid-cols-7 gap-1 text-xs text-gray-500 dark:text-gray-400 mb-2'>
+				<div className='grid grid-cols-7 gap-1 text-xs text-gray-500 dark:text-gray-400 mb-1'>
 					<div className='text-center font-medium'>S</div>
 					<div className='text-center font-medium'>M</div>
 					<div className='text-center font-medium'>T</div>
@@ -227,7 +227,7 @@ export function YearlyCalendar({ year }: YearlyCalendarProps) {
 			</div>
 
 			{/* Calendar Grid */}
-			<div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 lg:gap-6'>
+			<div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4'>
 				{Array.from({ length: 12 }, (_, i) => renderMiniMonth(i))}
 			</div>
 		</div>
