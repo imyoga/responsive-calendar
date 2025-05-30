@@ -1,0 +1,61 @@
+import { MonthlyCalendar } from "@/components/monthly-calendar"
+import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@/components/theme-toggle"
+import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
+
+interface MonthPageProps {
+  params: Promise<{ month: string }>
+}
+
+export default async function MonthPage({ params }: MonthPageProps) {
+  const { month } = await params
+  const monthIndex = Number.parseInt(month) - 1
+  const currentYear = new Date().getFullYear()
+
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ]
+
+  if (monthIndex < 0 || monthIndex > 11) {
+    return <div>Invalid month</div>
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-purple-200 via-purple-100 to-indigo-200 dark:from-gray-900 dark:via-purple-900/20 dark:to-gray-800 transition-colors duration-300 relative">
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiM5MzM0ZWEiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptNiA2djZoLTZ2LTZoNnptLTYtMTJ2Nmg2di02aC02em0xMiA2djZoNnYtNmgtNnptLTYgMTJ2Nmg2di02aC02em0tMTIgMHY2aDZ2LTZoLTZ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-70 dark:opacity-20 pointer-events-none"></div>
+      <div className="absolute top-4 right-4 z-10">
+        <ThemeToggle />
+      </div>
+      <div className="max-w-4xl mx-auto p-4 pt-16">
+        <header className="flex items-center justify-between mb-8">
+          <Link href="/">
+            <Button
+              variant="ghost"
+              className="flex items-center gap-2 hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Year View
+            </Button>
+          </Link>
+          <h1 className="text-3xl font-light bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 dark:from-purple-400 dark:via-purple-300 dark:to-indigo-400 bg-clip-text text-transparent">
+            {monthNames[monthIndex]} {currentYear}
+          </h1>
+          <div></div>
+        </header>
+        <MonthlyCalendar year={currentYear} month={monthIndex} />
+      </div>
+    </div>
+  )
+}
