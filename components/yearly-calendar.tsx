@@ -1,6 +1,10 @@
 "use client"
 
 import { Card } from "@/components/ui/card"
+import { useCanadianHolidays } from "./use-canadian-holidays"
+import { HolidayTooltip } from "./holiday-tooltip"
+import { ProvinceSelector } from "./province-selector"
+import { useState } from "react"
 
 interface YearlyCalendarProps {
   year: number
@@ -8,6 +12,8 @@ interface YearlyCalendarProps {
 
 export function YearlyCalendar({ year }: YearlyCalendarProps) {
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+  const [selectedProvince, setSelectedProvince] = useState("ON")
+  const { holidays, getHolidayForDate, loading } = useCanadianHolidays(year, selectedProvince)
 
   const getDaysInMonth = (year: number, month: number) => {
     return new Date(year, month + 1, 0).getDate()
@@ -19,6 +25,19 @@ export function YearlyCalendar({ year }: YearlyCalendarProps) {
 
   const handleMonthClick = (monthIndex: number) => {
     window.open(`/month/${monthIndex + 1}`, "_blank")
+  }
+
+  const getHolidayColor = (holiday: any) => {
+    if (holiday.federal === 1) {
+      return "bg-gradient-to-r from-red-400 to-red-600 text-white shadow-lg shadow-red-500/40"
+    }
+    
+    const isOptional = holiday.provinces && holiday.provinces.some((p: any) => p.nameEn && p.nameEn.includes("Optional"))
+    if (isOptional) {
+      return "bg-gradient-to-r from-yellow-400 to-orange-500 text-white shadow-lg shadow-yellow-500/40"
+    }
+    
+    return "bg-gradient-to-r from-green-400 to-emerald-600 text-white shadow-lg shadow-green-500/40"
   }
 
   const renderMiniMonth = (monthIndex: number) => {
@@ -51,18 +70,33 @@ export function YearlyCalendar({ year }: YearlyCalendarProps) {
     // Days of the month
     for (let day = 1; day <= daysInMonth; day++) {
       const isToday = isCurrentMonth && day === currentDate
-      days.push(
+      const dayDate = new Date(year, monthIndex, day)
+      const holiday = getHolidayForDate(dayDate)
+      
+      const dayElement = (
         <div
           key={day}
-          className={`w-6 h-6 flex items-center justify-center text-xs transition-all duration-200 ${
+          className={`w-6 h-6 flex items-center justify-center text-xs transition-all duration-200 cursor-pointer ${
             isToday
-              ? "bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-full shadow-lg shadow-purple-500/30"
+              ? "bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-full shadow-lg shadow-purple-500/30 z-10"
+              : holiday
+              ? `${getHolidayColor(holiday)} rounded-full font-bold hover:scale-125 z-10`
               : "text-gray-700 dark:text-gray-200 hover:bg-gradient-to-r hover:from-purple-100 hover:to-indigo-100 dark:hover:from-purple-900/30 dark:hover:to-indigo-900/30 rounded hover:scale-110"
           }`}
         >
           {day}
-        </div>,
+        </div>
       )
+
+      if (holiday) {
+        days.push(
+          <HolidayTooltip key={day} holiday={holiday} className="w-6 h-6">
+            {dayElement}
+          </HolidayTooltip>
+        )
+      } else {
+        days.push(dayElement)
+      }
     }
 
     // Next month's leading days (greyed out) to fill the grid
@@ -83,13 +117,16 @@ export function YearlyCalendar({ year }: YearlyCalendarProps) {
     return (
       <Card
         key={monthIndex}
-        className="p-4 cursor-pointer hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300 bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm border border-purple-300/70 dark:border-purple-700/50 hover:border-purple-400 dark:hover:border-purple-600 hover:scale-105 group"
+        className="p-4 cursor-pointer hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300 bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm border border-purple-300/70 dark:border-purple-700/50 hover:border-purple-400 dark:hover:border-purple-600 hover:scale-105 group relative overflow-visible"
         onClick={() => handleMonthClick(monthIndex)}
       >
         <div className="text-center mb-3">
           <h3 className="font-medium text-gray-900 dark:text-gray-100 text-sm group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-indigo-600 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
             {months[monthIndex]}
           </h3>
+          {loading && (
+            <div className="text-xs text-gray-500 dark:text-gray-400">Loading holidays...</div>
+          )}
         </div>
         <div className="grid grid-cols-7 gap-1 text-xs text-gray-500 dark:text-gray-400 mb-2">
           <div className="text-center font-medium">S</div>
@@ -100,14 +137,53 @@ export function YearlyCalendar({ year }: YearlyCalendarProps) {
           <div className="text-center font-medium">F</div>
           <div className="text-center font-medium">S</div>
         </div>
-        <div className="grid grid-cols-7 gap-1">{days}</div>
+        <div className="grid grid-cols-7 gap-1 relative">{days}</div>
       </Card>
     )
   }
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 lg:gap-6">
-      {Array.from({ length: 12 }, (_, i) => renderMiniMonth(i))}
+    <div className="space-y-4">
+      {/* Header with Province Selector */}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm border border-purple-300/70 dark:border-purple-700/50 rounded-lg">
+        <div className="flex items-center gap-3">
+          <h2 className="text-lg font-semibold bg-gradient-to-r from-purple-600 to-indigo-600 dark:from-purple-400 dark:to-indigo-400 bg-clip-text text-transparent">
+            Canadian Holidays for {year}
+          </h2>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-gray-600 dark:text-gray-400">Province:</span>
+          <ProvinceSelector 
+            selectedProvince={selectedProvince}
+            onProvinceChange={setSelectedProvince}
+          />
+        </div>
+      </div>
+
+      {/* Legend */}
+      <div className="flex flex-wrap items-center justify-center gap-4 p-4 bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm border border-purple-300/70 dark:border-purple-700/50 rounded-lg">
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 bg-gradient-to-r from-red-400 to-red-600 rounded-full"></div>
+          <span className="text-sm text-gray-700 dark:text-gray-300">Federal Holiday</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 bg-gradient-to-r from-green-400 to-emerald-600 rounded-full"></div>
+          <span className="text-sm text-gray-700 dark:text-gray-300">Statutory Holiday</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full"></div>
+          <span className="text-sm text-gray-700 dark:text-gray-300">Optional Holiday</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full"></div>
+          <span className="text-sm text-gray-700 dark:text-gray-300">Today</span>
+        </div>
+      </div>
+
+      {/* Calendar Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 lg:gap-6">
+        {Array.from({ length: 12 }, (_, i) => renderMiniMonth(i))}
+      </div>
     </div>
   )
 }
