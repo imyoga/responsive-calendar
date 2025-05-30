@@ -168,13 +168,13 @@ export function YearlyCalendar({ year }: YearlyCalendarProps) {
 	}
 
 	return (
-		<div className='space-y-6'>
+		<div className='space-y-4'>
 			{/* Consolidated Header with Year, Province Selector, and Legends */}
-			<div className='flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 p-6 bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm border border-purple-300/70 dark:border-purple-700/50 rounded-lg'>
+			<div className='flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 p-4 bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm border border-purple-300/70 dark:border-purple-700/50 rounded-lg'>
 				{/* Left side: Year and subtitle */}
 				<div className='flex-shrink-0'>
 					<div className='relative'>
-						<h1 className='text-4xl lg:text-5xl font-light bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 dark:from-purple-400 dark:via-purple-300 dark:to-indigo-400 bg-clip-text text-transparent'>
+						<h1 className='text-3xl lg:text-4xl font-light bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 dark:from-purple-400 dark:via-purple-300 dark:to-indigo-400 bg-clip-text text-transparent'>
 							{year}
 						</h1>
 						<div className='absolute inset-0 bg-gradient-to-r from-purple-600/20 via-purple-500/20 to-indigo-600/20 blur-3xl -z-10'></div>
@@ -182,31 +182,31 @@ export function YearlyCalendar({ year }: YearlyCalendarProps) {
 				</div>
 
 				{/* Center: Legend (vertical on mobile, horizontal on larger screens) */}
-				<div className='flex flex-col lg:flex-row items-start lg:items-center gap-3 lg:gap-6'>
-					<h3 className='text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 lg:mb-0'>
+				<div className='flex flex-col lg:flex-row items-start lg:items-center gap-2 lg:gap-4'>
+					<h3 className='text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 lg:mb-0'>
 						Holidays:
 					</h3>
-					<div className='grid grid-cols-1 lg:grid-cols-4 gap-3 lg:gap-4'>
-						<div className='flex items-center gap-2'>
-							<div className='w-3 h-3 bg-gradient-to-r from-red-400 to-red-600 rounded-full flex-shrink-0'></div>
+					<div className='grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-3'>
+						<div className='flex items-center gap-1.5'>
+							<div className='w-2.5 h-2.5 bg-gradient-to-r from-red-400 to-red-600 rounded-full flex-shrink-0'></div>
 							<span className='text-xs text-gray-700 dark:text-gray-300'>
 								Federal
 							</span>
 						</div>
-						<div className='flex items-center gap-2'>
-							<div className='w-3 h-3 bg-gradient-to-r from-green-400 to-emerald-600 rounded-full flex-shrink-0'></div>
+						<div className='flex items-center gap-1.5'>
+							<div className='w-2.5 h-2.5 bg-gradient-to-r from-green-400 to-emerald-600 rounded-full flex-shrink-0'></div>
 							<span className='text-xs text-gray-700 dark:text-gray-300'>
 								Statutory
 							</span>
 						</div>
-						<div className='flex items-center gap-2'>
-							<div className='w-3 h-3 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex-shrink-0'></div>
+						<div className='flex items-center gap-1.5'>
+							<div className='w-2.5 h-2.5 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex-shrink-0'></div>
 							<span className='text-xs text-gray-700 dark:text-gray-300'>
 								Optional
 							</span>
 						</div>
-						<div className='flex items-center gap-2'>
-							<div className='w-3 h-3 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full flex-shrink-0'></div>
+						<div className='flex items-center gap-1.5'>
+							<div className='w-2.5 h-2.5 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full flex-shrink-0'></div>
 							<span className='text-xs text-gray-700 dark:text-gray-300'>
 								Today
 							</span>
@@ -215,7 +215,7 @@ export function YearlyCalendar({ year }: YearlyCalendarProps) {
 				</div>
 
 				{/* Right side: Province Selector */}
-				<div className='flex flex-col lg:flex-row items-start lg:items-center gap-3 flex-shrink-0'>
+				<div className='flex flex-col lg:flex-row items-start lg:items-center gap-2 flex-shrink-0'>
 					<span className='text-sm text-gray-600 dark:text-gray-400 font-medium'>
 						Province:
 					</span>

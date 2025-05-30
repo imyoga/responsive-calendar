@@ -268,58 +268,58 @@ export function MonthlyCalendar({
 	return (
 		<Card className='p-2 bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm border border-purple-300/70 dark:border-purple-700/50 shadow-xl shadow-purple-500/20'>
 			{/* Consolidated Header */}
-			<div className='flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-3 p-3 bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-lg border border-purple-200/50 dark:border-purple-700/30'>
+			<div className='flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3 mb-2 p-2 bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-lg border border-purple-200/50 dark:border-purple-700/30'>
 				{/* Left: Navigation */}
-				<div className='flex items-center gap-3 flex-shrink-0'>
+				<div className='flex items-center gap-2 flex-shrink-0'>
 					<Button
 						variant='ghost'
 						size='sm'
 						onClick={() => navigateMonth('prev')}
-						className='flex items-center gap-2 hover:bg-gradient-to-r hover:from-purple-100 hover:to-indigo-100 dark:hover:from-purple-900/30 dark:hover:to-indigo-900/30 transition-all duration-300'
+						className='flex items-center gap-1.5 h-8 px-3 hover:bg-gradient-to-r hover:from-purple-100 hover:to-indigo-100 dark:hover:from-purple-900/30 dark:hover:to-indigo-900/30 transition-all duration-300'
 					>
-						<ChevronLeft className='w-4 h-4' />
+						<ChevronLeft className='w-3.5 h-3.5' />
 						Prev
 					</Button>
 					<Button
 						variant='ghost'
 						size='sm'
 						onClick={() => navigateMonth('next')}
-						className='flex items-center gap-2 hover:bg-gradient-to-r hover:from-purple-100 hover:to-indigo-100 dark:hover:from-purple-900/30 dark:hover:to-indigo-900/30 transition-all duration-300'
+						className='flex items-center gap-1.5 h-8 px-3 hover:bg-gradient-to-r hover:from-purple-100 hover:to-indigo-100 dark:hover:from-purple-900/30 dark:hover:to-indigo-900/30 transition-all duration-300'
 					>
 						Next
-						<ChevronRight className='w-4 h-4' />
+						<ChevronRight className='w-3.5 h-3.5' />
 					</Button>
 					{loading && (
-						<div className='text-xs text-gray-500 dark:text-gray-400 ml-3'>
+						<div className='text-xs text-gray-500 dark:text-gray-400 ml-2'>
 							Loading holidays...
 						</div>
 					)}
 				</div>
 
 				{/* Center: Legend */}
-				<div className='flex flex-col lg:flex-row items-start lg:items-center gap-3 lg:gap-6'>
-					<h3 className='text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 lg:mb-0'>
+				<div className='flex flex-col lg:flex-row items-start lg:items-center gap-2 lg:gap-4'>
+					<h3 className='text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 lg:mb-0'>
 						Holidays:
 					</h3>
-					<div className='flex flex-wrap items-center gap-3 lg:gap-4'>
-						<div className='flex items-center gap-2'>
-							<span className='px-1.5 py-0.5 bg-red-600 text-white text-xs rounded-full font-bold'>
+					<div className='flex flex-wrap items-center gap-2 lg:gap-3'>
+						<div className='flex items-center gap-1.5'>
+							<span className='px-1 py-0.5 bg-red-600 text-white text-xs rounded-full font-bold w-4 h-4 flex items-center justify-center'>
 								F
 							</span>
 							<span className='text-xs text-gray-700 dark:text-gray-300'>
 								Federal
 							</span>
 						</div>
-						<div className='flex items-center gap-2'>
-							<span className='px-1.5 py-0.5 bg-green-600 text-white text-xs rounded-full font-bold'>
+						<div className='flex items-center gap-1.5'>
+							<span className='px-1 py-0.5 bg-green-600 text-white text-xs rounded-full font-bold w-4 h-4 flex items-center justify-center'>
 								S
 							</span>
 							<span className='text-xs text-gray-700 dark:text-gray-300'>
 								Statutory
 							</span>
 						</div>
-						<div className='flex items-center gap-2'>
-							<span className='px-1.5 py-0.5 bg-yellow-600 text-white text-xs rounded-full font-bold'>
+						<div className='flex items-center gap-1.5'>
+							<span className='px-1 py-0.5 bg-yellow-600 text-white text-xs rounded-full font-bold w-4 h-4 flex items-center justify-center'>
 								O
 							</span>
 							<span className='text-xs text-gray-700 dark:text-gray-300'>
@@ -330,7 +330,7 @@ export function MonthlyCalendar({
 				</div>
 
 				{/* Right: Province Selector */}
-				<div className='flex flex-col lg:flex-row items-start lg:items-center gap-3 flex-shrink-0'>
+				<div className='flex flex-col lg:flex-row items-start lg:items-center gap-2 flex-shrink-0'>
 					<span className='text-sm text-gray-600 dark:text-gray-400 font-medium'>
 						Province:
 					</span>
@@ -341,11 +341,11 @@ export function MonthlyCalendar({
 				</div>
 			</div>
 
-			<div className='grid grid-cols-7 gap-0 mb-2'>
+			<div className='grid grid-cols-7 gap-0 mb-1'>
 				{dayNames.map((day) => (
 					<div
 						key={day}
-						className='p-2 text-center text-sm font-medium text-gray-600 dark:text-gray-300 bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 border border-purple-200/50 dark:border-purple-700/30'
+						className='p-1.5 text-center text-sm font-medium text-gray-600 dark:text-gray-300 bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 border border-purple-200/50 dark:border-purple-700/30'
 					>
 						{day}
 					</div>

@@ -7,7 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Dynamic Calendar",
+  title: "Calendar",
   description: "A beautiful responsive calendar with purple gradients",
     generator: 'v0.dev'
 }
