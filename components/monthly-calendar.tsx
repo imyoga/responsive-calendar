@@ -4,6 +4,7 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { useCanadianHolidays } from './use-canadian-holidays'
 import { HolidayTooltip } from './holiday-tooltip'
 import { ProvinceSelector } from './province-selector'
@@ -17,6 +18,7 @@ export function MonthlyCalendar({
 	year: initialYear,
 	month: initialMonth,
 }: MonthlyCalendarProps) {
+	const router = useRouter()
 	const [currentYear, setCurrentYear] = useState(initialYear)
 	const [currentMonth, setCurrentMonth] = useState(initialMonth)
 	const [selectedProvince, setSelectedProvince] = useState('ON')
@@ -72,21 +74,30 @@ export function MonthlyCalendar({
 	}
 
 	const navigateMonth = (direction: 'prev' | 'next') => {
+		let newYear = currentYear
+		let newMonth = currentMonth
+
 		if (direction === 'prev') {
 			if (currentMonth === 0) {
-				setCurrentMonth(11)
-				setCurrentYear(currentYear - 1)
+				newMonth = 11
+				newYear = currentYear - 1
 			} else {
-				setCurrentMonth(currentMonth - 1)
+				newMonth = currentMonth - 1
 			}
 		} else {
 			if (currentMonth === 11) {
-				setCurrentMonth(0)
-				setCurrentYear(currentYear + 1)
+				newMonth = 0
+				newYear = currentYear + 1
 			} else {
-				setCurrentMonth(currentMonth + 1)
+				newMonth = currentMonth + 1
 			}
 		}
+
+		setCurrentMonth(newMonth)
+		setCurrentYear(newYear)
+
+		// Update URL to reflect the new month
+		router.push(`/month/${newMonth + 1}`)
 	}
 
 	const getHolidayColor = (holiday: any) => {
