@@ -1,6 +1,9 @@
 'use client'
 
 import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useCanadianHolidays } from './use-canadian-holidays'
 import { HolidayTooltip } from './holiday-tooltip'
 import { ProvinceSelector } from './province-selector'
@@ -11,6 +14,7 @@ interface YearlyCalendarProps {
 }
 
 export function YearlyCalendar({ year }: YearlyCalendarProps) {
+	const router = useRouter()
 	const months = [
 		'Jan',
 		'Feb',
@@ -40,7 +44,12 @@ export function YearlyCalendar({ year }: YearlyCalendarProps) {
 	}
 
 	const handleMonthClick = (monthIndex: number) => {
-		window.open(`/month/${monthIndex + 1}`, '_blank')
+		router.push(`/${year}/${monthIndex + 1}`)
+	}
+
+	const navigateYear = (direction: 'prev' | 'next') => {
+		const newYear = direction === 'prev' ? year - 1 : year + 1
+		router.push(`/${newYear}`)
 	}
 
 	const getHolidayColor = (holiday: any) => {
@@ -171,14 +180,32 @@ export function YearlyCalendar({ year }: YearlyCalendarProps) {
 		<div className='space-y-4'>
 			{/* Consolidated Header with Year, Province Selector, and Legends */}
 			<div className='flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 p-4 bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm border border-purple-300/70 dark:border-purple-700/50 rounded-lg'>
-				{/* Left side: Year and subtitle */}
-				<div className='flex-shrink-0'>
+				{/* Left side: Year navigation */}
+				<div className='flex items-center gap-2 flex-shrink-0'>
+					<Button
+						variant='ghost'
+						size='sm'
+						onClick={() => navigateYear('prev')}
+						className='flex items-center gap-1.5 h-8 px-3 hover:bg-gradient-to-r hover:from-purple-100 hover:to-indigo-100 dark:hover:from-purple-900/30 dark:hover:to-indigo-900/30 transition-all duration-300'
+					>
+						<ChevronLeft className='w-3.5 h-3.5' />
+						Prev
+					</Button>
 					<div className='relative'>
-						<h1 className='text-3xl lg:text-4xl font-light bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 dark:from-purple-400 dark:via-purple-300 dark:to-indigo-400 bg-clip-text text-transparent'>
+						<h1 className='text-3xl lg:text-4xl font-light bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 dark:from-purple-400 dark:via-purple-300 dark:to-indigo-400 bg-clip-text text-transparent px-4'>
 							{year}
 						</h1>
 						<div className='absolute inset-0 bg-gradient-to-r from-purple-600/20 via-purple-500/20 to-indigo-600/20 blur-3xl -z-10'></div>
 					</div>
+					<Button
+						variant='ghost'
+						size='sm'
+						onClick={() => navigateYear('next')}
+						className='flex items-center gap-1.5 h-8 px-3 hover:bg-gradient-to-r hover:from-purple-100 hover:to-indigo-100 dark:hover:from-purple-900/30 dark:hover:to-indigo-900/30 transition-all duration-300'
+					>
+						Next
+						<ChevronRight className='w-3.5 h-3.5' />
+					</Button>
 				</div>
 
 				{/* Center: Legend (vertical on mobile, horizontal on larger screens) */}
@@ -214,8 +241,19 @@ export function YearlyCalendar({ year }: YearlyCalendarProps) {
 					</div>
 				</div>
 
-				{/* Right side: Province Selector */}
+				{/* Right side: Province Selector and Current Year */}
 				<div className='flex flex-col lg:flex-row items-start lg:items-center gap-2 flex-shrink-0'>
+					{year !== new Date().getFullYear() && (
+						<Button
+							variant='outline'
+							size='sm'
+							onClick={() => router.push(`/${new Date().getFullYear()}`)}
+							className='h-8 px-3 text-sm bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm border border-purple-300/70 dark:border-purple-700/50 hover:bg-gradient-to-r hover:from-purple-100 hover:to-indigo-100 dark:hover:from-purple-900/30 dark:hover:to-indigo-900/30 transition-all duration-300'
+						>
+							Current Year
+						</Button>
+					)}
+					<span className="w-16"></span>
 					<span className='text-sm text-gray-600 dark:text-gray-400 font-medium'>
 						Province:
 					</span>

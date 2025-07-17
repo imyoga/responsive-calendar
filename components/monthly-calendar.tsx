@@ -97,7 +97,7 @@ export function MonthlyCalendar({
 		setCurrentYear(newYear)
 
 		// Update URL to reflect the new month
-		router.push(`/month/${newMonth + 1}`)
+		router.push(`/${newYear}/${newMonth + 1}`)
 	}
 
 	const getHolidayColor = (holiday: any) => {
@@ -340,7 +340,7 @@ export function MonthlyCalendar({
 					</div>
 				</div>
 
-				{/* Right: Province Selector */}
+				{/* Right: Province Selector and Current Year */}
 				<div className='flex flex-col lg:flex-row items-start lg:items-center gap-2 flex-shrink-0'>
 					<span className='text-sm text-gray-600 dark:text-gray-400 font-medium'>
 						Province:
@@ -349,6 +349,21 @@ export function MonthlyCalendar({
 						selectedProvince={selectedProvince}
 						onProvinceChange={setSelectedProvince}
 					/>
+					{(currentYear !== new Date().getFullYear() ||
+						currentMonth !== new Date().getMonth()) && (
+						<Button
+							variant='outline'
+							size='sm'
+							onClick={() =>
+								router.push(
+									`/${new Date().getFullYear()}/${new Date().getMonth() + 1}`
+								)
+							}
+							className='h-8 px-3 text-sm bg-white/90 dark:bg-gray-800/80 backdrop-blur-sm border border-purple-300/70 dark:border-purple-700/50 hover:bg-gradient-to-r hover:from-purple-100 hover:to-indigo-100 dark:hover:from-purple-900/30 dark:hover:to-indigo-900/30 transition-all duration-300'
+						>
+							Today
+						</Button>
+					)}
 				</div>
 			</div>
 

@@ -5,13 +5,13 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 
 interface MonthPageProps {
-	params: Promise<{ month: string }>
+	params: Promise<{ year: string; month: string }>
 }
 
 export default async function MonthPage({ params }: MonthPageProps) {
-	const { month } = await params
+	const { year, month } = await params
+	const yearNumber = Number.parseInt(year)
 	const monthIndex = Number.parseInt(month) - 1
-	const currentYear = new Date().getFullYear()
 
 	const monthNames = [
 		'January',
@@ -28,16 +28,22 @@ export default async function MonthPage({ params }: MonthPageProps) {
 		'December',
 	]
 
-	if (monthIndex < 0 || monthIndex > 11) {
-		return <div>Invalid month</div>
+	if (
+		isNaN(yearNumber) ||
+		yearNumber < 1900 ||
+		yearNumber > 2100 ||
+		monthIndex < 0 ||
+		monthIndex > 11
+	) {
+		return <div>Invalid year or month</div>
 	}
 
 	const isCurrentMonth = () => {
 		const today = new Date()
-		return (
-			currentYear === today.getFullYear() && monthIndex === today.getMonth()
-		)
+		return yearNumber === today.getFullYear() && monthIndex === today.getMonth()
 	}
+
+	const currentYear = new Date().getFullYear()
 
 	return (
 		<div className='min-h-screen bg-gradient-to-br from-purple-200 via-purple-100 to-indigo-200 dark:from-gray-900 dark:via-purple-900/20 dark:to-gray-800 transition-colors duration-300 relative'>
@@ -47,7 +53,7 @@ export default async function MonthPage({ params }: MonthPageProps) {
 			</div>
 			<div className='max-w-4xl mx-auto p-4 pt-4'>
 				<header className='flex items-center justify-between mb-4'>
-					<Link href={`/${currentYear}`}>
+					<Link href={`/${yearNumber}`}>
 						<Button
 							variant='ghost'
 							className='flex items-center gap-2 hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors'
@@ -58,7 +64,7 @@ export default async function MonthPage({ params }: MonthPageProps) {
 					</Link>
 					<div className='flex items-center gap-4'>
 						<h1 className='text-3xl font-light bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 dark:from-purple-400 dark:via-purple-300 dark:to-indigo-400 bg-clip-text text-transparent'>
-							{monthNames[monthIndex]} {currentYear}
+							{monthNames[monthIndex]} {yearNumber}
 						</h1>
 						{!isCurrentMonth() && (
 							<Link href={`/${currentYear}/${new Date().getMonth() + 1}`}>
@@ -73,7 +79,7 @@ export default async function MonthPage({ params }: MonthPageProps) {
 						)}
 					</div>
 				</header>
-				<MonthlyCalendar year={currentYear} month={monthIndex} />
+				<MonthlyCalendar year={yearNumber} month={monthIndex} />
 			</div>
 		</div>
 	)
